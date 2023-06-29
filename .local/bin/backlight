@@ -1,0 +1,12 @@
+#!/bin/bash
+
+back=$(light -G)
+back=$(echo ${back%.*})
+
+if [ "$back" -ge 50 ]; then
+	icon="🌞"
+elif [ "$back" -lt 50 ];then
+	icon="🌑"
+fi
+
+echo $icon$back

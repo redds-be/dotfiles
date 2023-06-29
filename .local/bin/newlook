@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Select wallpaper
+wall=$(find ~/pix/wall -type f -name "*.jpg" -o -name "*.png" | shuf -n 1)
+
+# Set wallpaper
+xwallpaper --center $wall
+
+# Generate color scheme
+wal -c
+wal -i $wall
+
+# Apply color scheme
+xdotool key alt+F5
