@@ -23,5 +23,6 @@ if [ -z $DISPLAY ]; then
 fi
 
 alias clear="clear ; pfetch"
+alias h="history | cut -c 8- | sort | uniq | fzf | tr -d '\n' | xclip -selection c"
 
 export EDITOR='vim'
