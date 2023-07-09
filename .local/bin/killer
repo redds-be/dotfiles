@@ -1,0 +1,8 @@
+choice=$(ps -u $USER -o pid,%mem,%cpu,comm | sort -b -k2 -r | sed -n '1!p' | dmenu -i -l 15)
+pid=$(echo $choice | awk '{print $1}')
+kill -15 $pid 2>/dev/null
+program=$(echo $choice | awk '{print $4}')
+if [ "$program" = "" ]; then
+	program="nothing"
+fi
+notify-send "You killed $program !"

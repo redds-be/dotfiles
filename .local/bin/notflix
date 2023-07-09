@@ -1,0 +1,22 @@
+#!/bin/bash
+
+query=$(echo "" | tr ' ' ' ' &>/dev/null | dmenu -p "Movie ?" | tr ' ' '+' )
+
+if [ "$query" = "" ]; then
+  notify-send "Searching for: nothing"
+  exit 1
+else
+  notify-send "Searching for: $query"
+fi
+
+movie=$(curl -s https://1337x.unblockit.mov/search/$query/1/ | grep -Eo "torrent\/[0-9]{7}\/[a-zA-Z0-9?%-]*/" | dmenu -i -l 15 -p "Is it ?")
+
+if [ "$movie" = "" ]; then
+  notify-send "Playing: nothing"
+  exit 1
+else
+  notify-send "Playing: $movie"
+fi
+
+magnet=$(curl -s https://1337x.unblockit.mov/$movie | grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" | head -n 1)
+peerflix -l -k $magnet

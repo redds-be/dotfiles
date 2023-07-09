@@ -1,0 +1,6 @@
+#!/bin/bash
+
+video_id="$(echo $1 | grep -Eo "watch\?v=.{11}" | head -n 1)"
+yt_vid="https://youtube.com/$video_id"
+
+mpv $yt_vid

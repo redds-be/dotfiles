@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Variables
+INVIDIOUS_INSTANCE="https://video.redds.be"
+HIST_FILE="$HOME/.cache/play_song/hist"
+
+# Stop current song and clear playlist
+mpc stop
+mpc clear
+
+# Take input
+song="$(cat $HOME/.cache/play_song/hist | dmenu -i -l 15 -p "Song ?")"
+
+if [ "$song" = "" ]; then
+  notify-send "Playing: nothing"
+  exit 1
+fi
+
+# Save the query to a file
+sed -i '/^$/d' $HIST_FILE
+sed -i "/$song/d" $HIST_FILE
+echo $song >> $HIST_FILE
+
+# Make search query
+query="$(printf '%s' "song audio $song" | tr ' ' '+')"
+
+# Search the video and convert it to yt url
+video_id="$(curl -sv "$INVIDIOUS_INSTANCE/search?q=$query" | grep -Eo "watch\?v=.{11}" | head -n 1)"
+yt_vid="https://youtube.com/$video_id"
+
+# Get an url stream for the audio
+audio_url="$(yt-dlp -f bestaudio --get-url "$yt_vid")"
+
+# Add the audio to mpd (as next) and play it
+mpc add "$audio_url"
+mpc play
+
+# Get the title of the yt video for a notification
+title=$(yt-dlp --get-title "$yt_vid")
+notify-send "Playing: " "$title"
+
+# debug echos
+echo $song
+echo $vid_instance
+echo $query
+echo $video_id
+echo $yt_vid
+echo $audio_url
+

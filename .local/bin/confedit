@@ -1,0 +1,24 @@
+#!/bin/bash
+
+CONF_DIR="$HOME/.cache/confedit"
+CONF_EDITOR="/usr/bin/nvim"
+
+conf_choice="$(ls $CONF_DIR | dmenu -p "Conf ?")"
+
+if [ "$conf_choice" = "" ]; then
+  exit 1
+fi
+
+conf_file="$CONF_DIR/$conf_choice"
+
+if [ "$conf_choice" = "qutebrowser" ]; then
+  st -e /usr/bin/vim $conf_file
+elif [ "$conf_choice" = "portage" ]; then
+  st -e doas vim /etc/portage/make.conf
+elif [ "$conf_choice" = "package.use" ]; then
+  st -e doas vim /etc/portage/package.use/custom
+elif [ "$conf_choice" = "package.license" ]; then
+  st -e doas vim /etc/portage/package.license/custom
+else
+  st -e $CONF_EDITOR $conf_file
+fi

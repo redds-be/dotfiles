@@ -1,0 +1,23 @@
+#!/bin/bash
+
+curr_res="$(xrandr | grep '*' | awk '{print $1}')"
+lap_res="1366x768"
+desk_res="1680x1050"
+lap_wall="$HOME/pix/wall/gtarmswall.png"
+desk_wall="$HOME/pix/wall/gtarmswallbig.png"
+
+if [ "$curr_res" = "$lap_res" ]; then
+  if [ "$1" = "suspend" ]; then
+    loginctl suspend && i3lock -i $lap_wall
+  else
+    i3lock -i $lap_wall
+  fi
+elif [ "$curr_res" = "$desk_res" ]; then
+  if [ "$1" = "suspend" ]; then
+    loginctl suspend && i3lock -i $desk_wall
+  else
+    i3lock -i $desk_wall
+  fi
+else
+  i3lock
+fi

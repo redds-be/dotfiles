@@ -1,10 +1,18 @@
 #!/bin/bash
 
+# Is my second monitor connected ?
+second_monitor="$(xrandr --listactivemonitors | grep DP-2 | awk '{print $4}')"
+
 # Select wallpaper
 wall=$(find ~/pix/wall -type f -name "*.jpg" -o -name "*.png" | shuf -n 1)
 
+# Wait if i'm using a second monitor
+if [ "$second_monitor" = "DP-2" ]; then
+  sleep 3
+fi
+
 # Set wallpaper
-xwallpaper --center $wall
+xwallpaper --zoom $wall
 
 # Generate color scheme
 wal -c

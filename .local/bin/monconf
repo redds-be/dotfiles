@@ -1,0 +1,8 @@
+#!/bin/bash
+
+second="$(xrandr --listactivemonitors | grep DP-2 | awk '{print $4}')"
+
+if [ "$second" = "DP-2" ]; then
+    xrandr --output DP-2 --mode 1680x1050
+    xrandr --output eDP-1 --off
+fi

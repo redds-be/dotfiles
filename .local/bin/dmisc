@@ -1,0 +1,13 @@
+#!/bin/bash
+
+BIN_DIR="$HOME/.local/bin/"
+
+bin_choice="$(ls $BIN_DIR | dmenu -i -l 15 -p "Exec ?")"
+
+if [ "$bin_choice" = "" ]; then
+  exit 1
+fi
+
+bin_file="$BIN_DIR/$bin_choice"
+
+st -e $bin_file
