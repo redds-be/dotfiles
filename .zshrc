@@ -14,7 +14,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-if [ "$TERM" = "st-256color" ]; then
+if [ "$TERM" = "st-256color" ] || [ "$TERM" = "xterm-256color" ]; then
 	pfetch
 fi
 
